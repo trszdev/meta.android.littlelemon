@@ -1,12 +1,15 @@
 package com.meta.littlelemon.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,16 +32,23 @@ fun Profile(navController: NavController) {
     val user by userRepository.user.observeAsState()
     val scope = LocalLifecycleOwner.current.lifecycleScope
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Header(modifier = Modifier.align(Alignment.TopCenter))
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.colors.background)
+        .verticalScroll(rememberScrollState())
+    ) {
+        Header()
+
+        Box(modifier = Modifier.weight(1f))
 
         UserDetails(
             firstName = mutableStateOf(user?.firstName ?: ""),
             lastName = mutableStateOf(user?.lastName ?: ""),
             email = mutableStateOf(user?.email ?: ""),
-            enabled = false,
-            modifier = Modifier.align(Alignment.Center)
+            enabled = false
         )
+
+        Box(modifier = Modifier.weight(1f))
 
         Button(
             text = "Log out",
@@ -51,7 +61,6 @@ fun Profile(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
-                .align(Alignment.BottomCenter)
         )
     }
 }

@@ -32,13 +32,13 @@ class MenuRepositoryWithDatabaseAndNetworking(
     private val allItemsLiveData = liveData {
         menuDao.getAllMenuItems()
             .mapLatest {
-                println("fetch from db")
                 it.ifEmpty {
                     val menu = httpClient.fetchMenu()
                     menuDao.save(menu)
                     menu
                 }
             }
+            .flowOn(Dispatchers.IO)
             .collect(::emit)
     }
 
@@ -48,7 +48,6 @@ class MenuRepositoryWithDatabaseAndNetworking(
     ): Flow<List<MenuItem>> = allItemsLiveData
         .asFlow()
         .mapLatest { menu ->
-            println("filteredItems.map")
             menu
                 .filter {
                     it.title.contains(searchPhrase, ignoreCase = true) &&

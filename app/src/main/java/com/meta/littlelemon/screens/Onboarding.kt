@@ -1,10 +1,7 @@
 package com.meta.littlelemon
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -54,6 +51,8 @@ fun Onboarding(navController: NavController) {
             email = email,
             modifier = Modifier.padding(top = 30.dp)
         )
+
+        Box(modifier = Modifier.weight(1f))
 
         Button(
             text = "Register",
